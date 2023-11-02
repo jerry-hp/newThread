@@ -3,14 +3,13 @@ import { api } from "../../../libs/api/api";
 import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 
-export function useThread(idThread: Number | null) {
+export function useThread() {
   //ambil id user dari redux(login sesion)
   const idUser = useSelector((item: any) => item.auth.id);
   const [replyData, setReplyData] = useState({
     content: "",
     image: "",
-    thread: idThread,
-    user: idUser,
+    //tidak digunakan semua
   });
 
   const [thread, setThread] = useState({
@@ -50,16 +49,15 @@ export function useThread(idThread: Number | null) {
       });
   } //codingan thread berakhir
 
-  const newThread = String(replyData.thread);
-  const PostReply = new FormData();
-  PostReply.append("content", replyData.content);
-  PostReply.append("image", replyData.image);
-  PostReply.append("thread", newThread);
-  PostReply.append("user", replyData.user);
   //post Reply
-
-  async function handlePostReply() {
+  async function handlePostReply(idthr: number) {
     try {
+      const PostReply = {
+        content: replyData.content,
+        image: replyData.image,
+        thread: idthr,
+        user: idUser,
+      };
       const response = await api.post("/reply", PostReply);
       console.log(response.data);
       refetchThread();
@@ -84,6 +82,26 @@ export function useThread(idThread: Number | null) {
         [e.target.name]: e.target.files[0],
       });
   }
+  console.log(threadData);
+  const idLike = threadData.like.filter((item: any) => {
+    return item.user.id==
+  });
+  console.log({ idLike });
+  async function handleLike(idthr: number) {
+    const [isLike, setIsLike] = useState(false);
+    if (isLike) {
+      const like = {
+        user: idUser,
+        thread: idthr,
+      };
+      await api.post("like", like);
+      // console.log({ responseLike });
+      refetchThread();
+      setIsLike(true);
+    } else {
+      // api.delete(`/like/${}`)
+    }
+  }
 
-  return { threadData, thread, handleContent, handleImage, handlePost, handlePostReply, handleImageReply, handleContentReply };
+  return { threadData, thread, handleContent, handleImage, handlePost, handlePostReply, handleImageReply, handleContentReply, handleLike };
 }

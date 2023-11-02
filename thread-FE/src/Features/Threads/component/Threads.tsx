@@ -8,21 +8,18 @@ import { LuImagePlus } from "react-icons/lu";
 
 // threadsType
 export default function Threads() {
-  const [loveColor, setLoveColor] = useState(false);
+  // const [loveColor, setLoveColor] = useState(false);
   const [detailIndex, setDetailIndex] = useState<number | null>(null); // Melacak thread mana yang ingin ditampilkan detailnya
-  const [idThread, setIdThread] = useState(null);
 
-  const toggleDetail = (index: number, idThread: any) => {
+  const toggleDetail = (index: number) => {
     if (index === detailIndex) {
       setDetailIndex(null); // Menutup detail jika thread yang sama diklik
-      setIdThread(idThread);
     } else {
       setDetailIndex(index);
-      setIdThread(idThread);
     }
   };
 
-  const { threadData, handlePostReply, handleImageReply, handleContentReply } = useThread(idThread);
+  const { threadData, handlePostReply, handleImageReply, handleContentReply, handleLike } = useThread();
 
   return (
     <>
@@ -42,12 +39,12 @@ export default function Threads() {
                 {item.image && <Image src={item.image} display="inline-block" w="100%" h="400px" borderRadius="10px" border="1px solid white" />}
 
                 <Box display={"flex"} gap="1rem" color="white">
-                  <Button variant={"unstyled"} onClick={() => (!loveColor ? setLoveColor(true) : setLoveColor(false))} display="flex" alignItems="center" gap="8px">
-                    <FaHeart color={loveColor ? "red" : "white"} />
+                  <Button variant={"unstyled"} onClick={() => handleLike(item.id)} display="flex" alignItems="center" gap="8px">
+                    <FaHeart color={"white"} />
                     {item.like.length}
                   </Button>
                   <Text display="flex" alignItems="center" gap="8px">
-                    <button onClick={() => toggleDetail(key, item.id)}>
+                    <button onClick={() => toggleDetail(key)}>
                       <BiCommentDetail />
                     </button>
                     {item.replies.length} Replies
@@ -63,7 +60,7 @@ export default function Threads() {
                         <Input type="file" position={"absolute"} top="0" left="0" right="0" bottom="0" zIndex={2} opacity={0} name="image" onChange={handleImageReply} />
                         <LuImagePlus color="#008000" />
                       </Button>
-                      <Button variant="solid" bg="#008000" color="white" borderRadius="10px" display="flex" onClick={handlePostReply}>
+                      <Button variant="solid" bg="#008000" color="white" borderRadius="10px" display="flex" onClick={()=>handlePostReply(item.id)}>
                         Send
                       </Button>
                     </Box>

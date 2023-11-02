@@ -36,12 +36,7 @@ export default new (class LikesService {
   async create(req: Request, res: Response): Promise<Response> {
     try {
       const body = req.body;
-      const { error } = LikesSchemaValidate.validate(body);
-
-      if (error) {
-        return res.status(400).json({ error });
-      }
-
+      console.log(body);
       const newLike = this.LikesRepository.create(body);
 
       await this.LikesRepository.save(newLike);
