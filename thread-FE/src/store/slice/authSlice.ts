@@ -22,6 +22,7 @@ export const authSlice = createSlice({
         full_name: payload.user.full_name,
         email: payload.user.email,
         profile_picture: payload.user.profile_picture,
+        profile_description: payload.user.profile_description,
       };
       return user;
     },

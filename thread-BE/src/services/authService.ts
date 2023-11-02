@@ -61,6 +61,7 @@ export default new (class AuthService {
         full_name: findUser.full_name,
         email: findUser.email,
         profile_picture: findUser.profile_picture,
+        profile_description: findUser.profile_description,
       };
 
       return res.status(200).json({ user, token });

@@ -2,9 +2,9 @@ import { Text, Image, Box, Button, Heading, Input } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
 import { BiCommentDetail } from "react-icons/bi";
 import { useState } from "react";
-// import { threadsType } from "../../../types/type";
 import { useThread } from "../hooks/useThread";
 import { LuImagePlus } from "react-icons/lu";
+import Formstatus from "./formThread";
 
 // threadsType
 export default function Threads() {
@@ -23,6 +23,12 @@ export default function Threads() {
 
   return (
     <>
+      <Box boxSizing="border-box" p="10px">
+        <Text color="white" mb="10px">
+          Home
+        </Text>
+        <Formstatus />
+      </Box>
       {threadData &&
         threadData.map((item: any, key: any) => (
           <Box boxSizing="border-box" p="0px 15px" key={key}>
@@ -60,7 +66,7 @@ export default function Threads() {
                         <Input type="file" position={"absolute"} top="0" left="0" right="0" bottom="0" zIndex={2} opacity={0} name="image" onChange={handleImageReply} />
                         <LuImagePlus color="#008000" />
                       </Button>
-                      <Button variant="solid" bg="#008000" color="white" borderRadius="10px" display="flex" onClick={()=>handlePostReply(item.id)}>
+                      <Button variant="solid" bg="#008000" color="white" borderRadius="10px" display="flex" onClick={() => handlePostReply(item.id)}>
                         Send
                       </Button>
                     </Box>

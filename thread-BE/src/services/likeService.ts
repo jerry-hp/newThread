@@ -36,9 +36,7 @@ export default new (class LikesService {
   async create(req: Request, res: Response): Promise<Response> {
     try {
       const body = req.body;
-      console.log(body);
       const newLike = this.LikesRepository.create(body);
-
       await this.LikesRepository.save(newLike);
       return res.status(200).json({ data: newLike });
     } catch (err) {
@@ -49,7 +47,7 @@ export default new (class LikesService {
   async delete(req: Request, res: Response): Promise<Response> {
     try {
       const id: number = Number(req.params.id);
-      const findLikestoDelete = await this.LikesRepository.findOneBy({ id });
+      const findLikestoDelete = await this.LikesRepository.find({ where: { thread: { id: id } } });
 
       if (!findLikestoDelete) {
         return res.status(400).json({ error: "cannot find like" });

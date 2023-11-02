@@ -15,9 +15,9 @@ export default function FormLogin() {
         <Heading fontSize="large" color="white">
           Login
         </Heading>
-        <Input color="white" type="email" placeholder="Email" name="email" onChange={handleChange} />
+        <Input color="white" type="email" placeholder="Email" id="email" name="email" onChange={handleChange} />
         <InputGroup>
-          <Input color="white" type={isShow ? "text" : "password"} placeholder="Password" name="password" onChange={handleChange} />
+          <Input color="white" type={isShow ? "text" : "password"} id="Password" placeholder="Password" name="password" onChange={handleChange} />
           <InputRightElement mr="10px">
             <Button mr="10px" variant="unstyled" color="white" onClick={() => setIsShow(!isShow ? true : false)}>
               {!isShow ? "show" : "hidden"}

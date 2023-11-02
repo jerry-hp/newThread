@@ -86,7 +86,7 @@ export default new (class ThreadService {
         const cloudinaryResponse = await cloudinary.uploader.upload("src/uploads/" + image, { folder: "circle-app" });
         imagesrc = cloudinaryResponse.secure_url;
       }
-
+      console.log({ imagesrc });
       const newThreads = this.threadRepository.create({
         content: data.content,
         image: imagesrc,

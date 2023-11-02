@@ -5,7 +5,6 @@ import { useThread } from "../hooks/useThread";
 
 export default function Formstatus() {
   const pp = useSelector((state: any) => state.auth.profile_picture);
- 
 
   const { thread, handleContent, handleImage, handlePost } = useThread();
 

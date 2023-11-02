@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { api, setAuthToken } from "./libs/api/api";
 import { useState, useEffect } from "react";
 import { AUTH_CHECK, AUTH_ERROR } from "./store/rootReducer";
+import Follows from "./Pages/Follows";
 
 function App() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -37,7 +38,6 @@ function App() {
     } else {
       setIsLoading(false);
     }
-    console.log("tessss");
   }, []);
 
   //check apakah sudah login(jiak sudahh auth.username ada) dan akan bisa mengakses routingan di dalam outlet
@@ -48,14 +48,6 @@ function App() {
       return <Outlet />;
     }
   }
-
-  // function IsLogin() {
-  //   if (token) {
-  //     return <Navigate to="/" />;
-  //   } else {
-  //     return <Outlet />;
-  //   }
-  // }
 
   return (
     <>
@@ -72,7 +64,7 @@ function App() {
                 }
               />
             </Route>
-
+            <Route path="/follows" element={<Follows />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
           </Routes>

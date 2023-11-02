@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 
 export function useThread() {
+  const [isLike, setIsLike] = useState(true);
   //ambil id user dari redux(login sesion)
   const idUser = useSelector((item: any) => item.auth.id);
   const [replyData, setReplyData] = useState({
@@ -82,24 +83,23 @@ export function useThread() {
         [e.target.name]: e.target.files[0],
       });
   }
-  console.log(threadData);
-  const idLike = threadData.like.filter((item: any) => {
-    return item.user.id==
-  });
-  console.log({ idLike });
+
+  //like thread
   async function handleLike(idthr: number) {
-    const [isLike, setIsLike] = useState(false);
     if (isLike) {
       const like = {
         user: idUser,
         thread: idthr,
       };
-      await api.post("like", like);
-      // console.log({ responseLike });
+      const responseLike = await api.post("like", like);
+      console.log("like berhasil", responseLike);
+      refetchThread();
+      setIsLike(false);
+    } else {
+      const res = await api.delete(`/like/${idthr}`);
+      console.log(res);
       refetchThread();
       setIsLike(true);
-    } else {
-      // api.delete(`/like/${}`)
     }
   }
 
