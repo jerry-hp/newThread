@@ -73,11 +73,10 @@ export default new (class AuthService {
   async check(req: Request, res: Response): Promise<Response> {
     try {
       const loginSession = res.locals.loginSession;
-      console.log(loginSession);
-
+      console.log({ loginSession });
       const user = await this.authRepository.findOne({
         where: {
-          id: loginSession.emailUser,
+          id: loginSession.idUser,
         },
       });
 

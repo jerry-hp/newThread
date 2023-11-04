@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 export function MyProfile() {
   const dataProfil = useSelector((item: any) => item.auth);
 
-  console.log(dataProfil);
   return (
     <>
       <Box position="relative" bg="#403d39" boxSizing="border-box" p="10px" borderRadius="20px">

@@ -20,7 +20,7 @@ function App() {
     try {
       setAuthToken(localStorage.token);
       const response = await api.get("/auth/check");
-      console.log("authCheck : ", response);
+      // console.log("authCheck : ", response);
       dispatch(AUTH_CHECK(response.data.user));
       setIsLoading(false);
     } catch (err) {

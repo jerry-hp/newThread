@@ -1,9 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../layouts/Main";
 import "../tailwind.css";
+import { api } from "../libs/api/api";
+import { useSelector } from "react-redux";
 
 function Follows() {
-  const [isTab, setIsTab] = useState(false);
+  const [isTab, setIsTab] = useState(true);
+  const [follow, setFollow] = useState([]);
+  const full_name = useSelector((item: any) => item.auth.full_name);
+  const userId = useSelector((item: any) => item.auth.id);
+
+  //get followers
+  const filteredFollowers = follow.filter((item: any) => {
+    return item.following_id.full_name == full_name;
+  });
+
+  //get following
+  const filteredFollowing = follow.filter((item: any) => {
+    return item.follower_id.full_name == full_name;
+  });
+
+  console.log({ filteredFollowers });
+
+  //post follow sampai sini
+  function handleFollow(e: any) {
+    const following = e;
+
+    const dataFollow = {
+      follower_id: userId,
+      following_id: following,
+    };
+    api.post("/follow", dataFollow);
+  }
+
+  useEffect(() => {
+    api.get("/follows").then((res) => setFollow(res.data.follow));
+  }, [isTab]);
+
   return (
     <div>
       <Layout>
@@ -22,41 +55,32 @@ function Follows() {
           <div className="col-span-2">
             {isTab ? (
               <>
-                <div className="h-10 grid grid-cols-10 grid-rows-2 grid-flow-col place-items-start text-yellow-50 mb-2">
-                  <img src="https://images.pexels.com/photos/15483667/pexels-photo-15483667/free-photo-of-flag-of-palestine.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" className="w-10 h-full rounded-full row-span-2" />
-                  <p className="col-span-10">Jamaludin</p>
-                  <p className="col-span-10 text-gray-400"> @Jamal23</p>
-                  <div className="row-span-2 h-full flex items-center">
-                    <button className="border rounded-full border-white px-4 h-[70%]">Follow</button>
+                {filteredFollowers.map((item: any, key: number) => (
+                  <div key={key} className="h-10 grid grid-cols-10 grid-rows-2 grid-flow-col place-items-start text-yellow-50 mb-3">
+                    <img src={item.follower_id.profile_picture} alt="" className="w-10 h-full rounded-full row-span-2" />
+                    <p className="col-span-10">{item.follower_id.full_name}</p>
+                    <p className="col-span-10 text-gray-400"> {item.follower_id.username}</p>
+                    <div className="row-span-2 h-full flex items-center">
+                      <button className="border rounded-full border-white px-4 h-[70%]" onClick={() => handleFollow(item.follower_id.id)}>
+                        {item.follower_id.id !== userId ? "Follow" : "unfollow"}
+                        {/* it need to fix */}
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="h-10 grid grid-cols-10 grid-rows-2 grid-flow-col place-items-start text-yellow-50 mb-2">
-                  <img src="https://images.pexels.com/photos/15483667/pexels-photo-15483667/free-photo-of-flag-of-palestine.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" className="w-10 h-full rounded-full row-span-2" />
-                  <p className="col-span-10">Jamaludin</p>
-                  <p className="col-span-10 text-gray-400"> @Jamal23</p>
-                  <div className="row-span-2 h-full flex items-center">
-                    <button className="border rounded-full border-white px-4 h-[70%]">Follow</button>
-                  </div>
-                </div>
-                <div className="h-10 grid grid-cols-10 grid-rows-2 grid-flow-col place-items-start text-yellow-50 mb-2">
-                  <img src="https://images.pexels.com/photos/15483667/pexels-photo-15483667/free-photo-of-flag-of-palestine.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" className="w-10 h-full rounded-full row-span-2" />
-                  <p className="col-span-10">Jamaludin</p>
-                  <p className="col-span-10 text-gray-400"> @Jamal23</p>
-                  <div className="row-span-2 h-full flex items-center">
-                    <button className="border rounded-full border-white px-4 h-[70%]">Follow</button>
-                  </div>
-                </div>
+                ))}
               </>
             ) : (
               <div>
-                <div className="h-10 grid grid-cols-10 grid-rows-2 grid-flow-col place-items-start text-yellow-50 mb-2">
-                  <img src="https://images.pexels.com/photos/15483667/pexels-photo-15483667/free-photo-of-flag-of-palestine.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" className="w-10 h-full rounded-full row-span-2" />
-                  <p className="col-span-10">udinnnn</p>
-                  <p className="col-span-10 text-gray-400"> @udiiinn</p>
-                  <div className="row-span-2 h-full flex items-center">
-                    <button className="border rounded-full border-gray-400 text-gray-400 px-4 h-[70%]">Following</button>
+                {filteredFollowing.map((item: any, key) => (
+                  <div key={key} className="h-10 grid grid-cols-10 grid-rows-2 grid-flow-col place-items-start text-yellow-50 mb-2">
+                    <img src={item.following_id.profile_picture} alt="" className="w-10 h-full rounded-full row-span-2" />
+                    <p className="col-span-10">{item.following_id.full_name}</p>
+                    <p className="col-span-10 text-gray-400">{item.following_id.username}</p>
+                    <div className="row-span-2 h-full flex items-center">
+                      <button className="border rounded-full border-gray-400 text-gray-400 px-4 h-[70%]">Following</button>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             )}
           </div>
