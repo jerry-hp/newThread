@@ -21,7 +21,7 @@ export default new (class UserService {
   async update(req: Request, res: Response): Promise<Response> {
     try {
       const id = parseInt(req.params.id);
-
+      console.log(id);
       const user = await this.userRepository.findOne({ where: { id: id } });
 
       if (!user) {
@@ -29,6 +29,7 @@ export default new (class UserService {
       }
 
       const data = req.body;
+      console.log({ data });
       const { error } = UpdateUserSchema.validate(data);
       if (error) res.status(400).send(error.details[0].message);
 

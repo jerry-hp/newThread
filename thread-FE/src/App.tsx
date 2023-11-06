@@ -3,11 +3,13 @@ import { BrowserRouter, Routes, Route, Navigate, Outlet, useNavigate } from "rea
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 import Main from "./layouts/Main";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { api, setAuthToken } from "./libs/api/api";
 import { useState, useEffect } from "react";
 import { AUTH_CHECK, AUTH_ERROR } from "./store/rootReducer";
 import Follows from "./Pages/Follows";
+import Search from "./Pages/Search";
+import Profile from "./Pages/Profile";
 
 function App() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -64,6 +66,8 @@ function App() {
                 }
               />
             </Route>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/follows" element={<Follows />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />

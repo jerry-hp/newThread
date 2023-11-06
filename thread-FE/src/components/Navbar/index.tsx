@@ -24,7 +24,7 @@ export function Navbar() {
         <Text display={"flex"} alignItems={"center"} gap={"10px"} onClick={() => navigate("/")} cursor={"pointer"}>
           <FaHome /> Home
         </Text>
-        <Text display={"flex"} alignItems={"center"} gap={"10px"}>
+        <Text display={"flex"} alignItems={"center"} gap={"10px"} onClick={() => navigate("/search")} cursor={"pointer"}>
           <FaSearch />
           Search
         </Text>
@@ -32,7 +32,7 @@ export function Navbar() {
           <FaHeart />
           Follows
         </Text>
-        <Text display={"flex"} alignItems={"center"} gap={"10px"}>
+        <Text display={"flex"} alignItems={"center"} gap={"10px"} onClick={() => navigate("/profile")} cursor={"pointer"}>
           <CgProfile />
           Profile
         </Text>

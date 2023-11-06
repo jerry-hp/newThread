@@ -40,7 +40,8 @@ export default new (class FollowService {
   }
   async delete(req: Request, res: Response): Promise<Response> {
     try {
-      const id: number = Number(req.body);
+      const id = req.body.id;
+      console.log("delete", id);
 
       const findFollower = await this.followRepository.findOneBy({
         id,

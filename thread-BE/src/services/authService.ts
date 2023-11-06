@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { hashSync, compare } from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
+import Follow from "../entities/followEntity";
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ export default new (class AuthService {
       });
       if (!findUser) return res.status(404).json({ message: "user not found" });
 
+      console.log(findUser);
       //comparing password
       const checkPassword = await compare(data.password, findUser.password);
       if (!checkPassword) return res.status(404).json({ message: "password is wrong" });

@@ -22,7 +22,6 @@ export function useRegister() {
   async function handleRegister() {
     try {
       const response = await api.post("/register", newUser);
-      console.log(response);
       navigate("/login");
     } catch (error) {
       console.log(error);
